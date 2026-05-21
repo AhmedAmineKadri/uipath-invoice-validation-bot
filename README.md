@@ -4,7 +4,7 @@ A small UiPath RPA portfolio project that automates a realistic invoice validati
 
 The bot reads invoice metadata from an Excel file, validates each invoice using business rules, checks whether the related PDF file exists, writes the processing result back to Excel, copies invoice files into status-based folders, and generates a final processing report.
 
-This project was built as a beginner-to-intermediate UiPath portfolio project to demonstrate practical RPA skills for an Intelligent Automation / RPA working student role.
+This project was built as a beginner-to-intermediate UiPath portfolio project to demonstrate practical RPA skills.
 
 ---
 
@@ -182,7 +182,7 @@ Planned improvements:
 - Improve logging for unexpected runtime errors
 - Add screenshots to the README
 - Add a short demo GIF or video
-- Add final interview explanation section
+
 
 ---
 
@@ -190,7 +190,6 @@ Planned improvements:
 
 Invoice processing is a common business process in companies. This project shows how RPA can automate repetitive manual work such as reading Excel data, validating business rules, handling files, updating records, and creating reports.
 
-The project is intentionally simple enough to understand quickly, but realistic enough to discuss in an Intelligent Automation interview.
 
 It demonstrates that RPA is not only about clicking buttons. A useful bot should follow a clear process:
 
