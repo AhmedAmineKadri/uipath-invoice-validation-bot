@@ -1,0 +1,6 @@
+{
+  "Name": "InvoiceValidationBot",
+  "ProjectType": "Process",
+  "Description": "Business scenario\n\nA company receives invoices from suppliers. A human normally checks:\n\nDoes the invoice file exist?\nIs the supplier known?\nIs the invoice amount valid?\nIs the invoice already paid or pending?\nShould the invoice be approved, rejected, or sent for manual review?\n\nYour UiPath bot will automate this.",
+  "MainFile": "Main.xaml"
+}

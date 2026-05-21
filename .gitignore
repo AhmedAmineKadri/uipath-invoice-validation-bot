@@ -1,0 +1,27 @@
+# UiPath local/cache files
+.local/
+.settings/
+.objects/
+
+# Runtime output
+reports/*.txt
+reports/*.log
+approved/*.pdf
+review/*.pdf
+rejected/*.pdf
+
+# Keep folder placeholders
+!approved/.gitkeep
+!review/.gitkeep
+!rejected/.gitkeep
+!reports/.gitkeep
+!screenshots/.gitkeep
+
+# Windows
+Thumbs.db
+desktop.ini
+
+
+'~$*.xlsx' | Add-Content .gitignore
+'~$*.xlsm' | Add-Content .gitignore
+'~$*.docx' | Add-Content .gitignore
