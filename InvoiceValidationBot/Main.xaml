@@ -108,25 +108,35 @@
       <AssemblyReference>UiPath.Platform</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <Sequence DisplayName="Main Sequence" sap:VirtualizedContainerService.HintSize="1252,6854" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence DisplayName="Main Sequence" sap:VirtualizedContainerService.HintSize="759,9359" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:Int32" Name="totalCount" />
+      <Variable x:TypeArguments="x:Int32" Name="approvedCount" />
+      <Variable x:TypeArguments="x:Int32" Name="reviewCount" />
+      <Variable x:TypeArguments="x:Int32" Name="rejectedCount" />
+      <Variable x:TypeArguments="x:Int32" Name="missingFileCount" />
+      <Variable x:TypeArguments="x:String" Name="reportFilePath" />
+      <Variable x:TypeArguments="x:String" Name="reportText" />
+      <Variable x:TypeArguments="x:String" Name="openReportAnswer" />
+    </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <ueab:ExcelApplicationCard Password="{x:Null}" ReadFormatting="{x:Null}" SensitivityLabel="{x:Null}" DisplayName="Use Excel File" sap:VirtualizedContainerService.HintSize="759,6831" sap2010:WorkflowViewState.IdRef="ExcelApplicationCard_1" ResizeWindow="None" SensitivityOperation="None" WorkbookPath="C:\Users\ACER\Desktop\UiPath-Invoice-Validation-Bot\data\invoices.xlsx">
+    <ueab:ExcelApplicationCard Password="{x:Null}" ReadFormatting="{x:Null}" SensitivityLabel="{x:Null}" DisplayName="Use Excel File" sap:VirtualizedContainerService.HintSize="759,9725" sap2010:WorkflowViewState.IdRef="ExcelApplicationCard_1" ResizeWindow="None" SensitivityOperation="None" WorkbookPath="C:\Users\ACER\Desktop\UiPath-Invoice-Validation-Bot\data\invoices.xlsx">
       <ueab:ExcelApplicationCard.Body>
         <ActivityAction x:TypeArguments="ue:IWorkbookQuickHandle">
           <ActivityAction.Argument>
             <DelegateInArgument x:TypeArguments="ue:IWorkbookQuickHandle" Name="InvoicesExcel" />
           </ActivityAction.Argument>
-          <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="725,6535" sap2010:WorkflowViewState.IdRef="Sequence_2">
+          <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="725,9452" sap2010:WorkflowViewState.IdRef="Sequence_2">
             <sap:WorkflowViewStateService.ViewState>
               <scg:Dictionary x:TypeArguments="x:String, x:Object">
                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
               </scg:Dictionary>
             </sap:WorkflowViewStateService.ViewState>
-            <ueab:ExcelForEachRowX DisplayName="For Each Excel Row" EmptyRowBehavior="Stop" HasHeaders="True" sap:VirtualizedContainerService.HintSize="691,6475" sap2010:WorkflowViewState.IdRef="ExcelForEachRowX_1" Range="[InvoicesExcel.Table(&quot;InvoicesTable&quot;)]" SaveAfterEachRow="False">
+            <ueab:ExcelForEachRowX DisplayName="For Each Excel Row" EmptyRowBehavior="Stop" HasHeaders="True" sap:VirtualizedContainerService.HintSize="691,8165" sap2010:WorkflowViewState.IdRef="ExcelForEachRowX_1" Range="[InvoicesExcel.Table(&quot;InvoicesTable&quot;)]" SaveAfterEachRow="False">
               <ueab:ExcelForEachRowX.Body>
                 <ActivityAction x:TypeArguments="ue:CurrentRowQuickHandle, x:Int32">
                   <ActivityAction.Argument1>
@@ -135,7 +145,7 @@
                   <ActivityAction.Argument2>
                     <DelegateInArgument x:TypeArguments="x:Int32" Name="CurrentIndex" />
                   </ActivityAction.Argument2>
-                  <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="657,6259" sap2010:WorkflowViewState.IdRef="Sequence_3">
+                  <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="657,7940" sap2010:WorkflowViewState.IdRef="Sequence_3">
                     <Sequence.Variables>
                       <Variable x:TypeArguments="x:String" Name="destinationFilePath" />
                       <Variable x:TypeArguments="x:String" Name="destinationFolder" />
@@ -404,6 +414,106 @@
                         </Sequence>
                       </If.Else>
                     </If>
+                    <Assign sap:VirtualizedContainerService.HintSize="623,175" sap2010:WorkflowViewState.IdRef="Assign_15">
+                      <Assign.To>
+                        <OutArgument x:TypeArguments="x:Int32">[totalCount]</OutArgument>
+                      </Assign.To>
+                      <Assign.Value>
+                        <InArgument x:TypeArguments="x:Int32">[totalCount + 1]</InArgument>
+                      </Assign.Value>
+                    </Assign>
+                    <If Condition="[Not fileExists]" sap:VirtualizedContainerService.HintSize="623,467" sap2010:WorkflowViewState.IdRef="If_8">
+                      <If.Then>
+                        <Sequence DisplayName="Then" sap:VirtualizedContainerService.HintSize="450,234" sap2010:WorkflowViewState.IdRef="Sequence_18">
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                          <Assign sap:VirtualizedContainerService.HintSize="416,170" sap2010:WorkflowViewState.IdRef="Assign_16">
+                            <Assign.To>
+                              <OutArgument x:TypeArguments="x:Int32">[missingFileCount]</OutArgument>
+                            </Assign.To>
+                            <Assign.Value>
+                              <InArgument x:TypeArguments="x:Int32">[missingFileCount + 1]</InArgument>
+                            </Assign.Value>
+                          </Assign>
+                        </Sequence>
+                      </If.Then>
+                      <If.Else>
+                        <Sequence DisplayName="Else" sap:VirtualizedContainerService.HintSize="450,94" sap2010:WorkflowViewState.IdRef="Sequence_19">
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                        </Sequence>
+                      </If.Else>
+                    </If>
+                    <If Condition="[status = &quot;APPROVED&quot;]" sap:VirtualizedContainerService.HintSize="623,1039" sap2010:WorkflowViewState.IdRef="If_9">
+                      <If.Then>
+                        <Sequence DisplayName="Then" sap:VirtualizedContainerService.HintSize="486,234" sap2010:WorkflowViewState.IdRef="Sequence_20">
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                          <Assign sap:VirtualizedContainerService.HintSize="452,170" sap2010:WorkflowViewState.IdRef="Assign_17">
+                            <Assign.To>
+                              <OutArgument x:TypeArguments="x:Int32">[approvedCount]</OutArgument>
+                            </Assign.To>
+                            <Assign.Value>
+                              <InArgument x:TypeArguments="x:Int32">[approvedCount + 1]</InArgument>
+                            </Assign.Value>
+                          </Assign>
+                        </Sequence>
+                      </If.Then>
+                      <If.Else>
+                        <Sequence DisplayName="Else" sap:VirtualizedContainerService.HintSize="486,666" sap2010:WorkflowViewState.IdRef="Sequence_21">
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                          <If Condition="[status = &quot;REVIEW&quot;]" sap:VirtualizedContainerService.HintSize="452,602" sap2010:WorkflowViewState.IdRef="If_10">
+                            <If.Then>
+                              <Sequence DisplayName="Then" sap:VirtualizedContainerService.HintSize="450,234" sap2010:WorkflowViewState.IdRef="Sequence_22">
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                                <Assign sap:VirtualizedContainerService.HintSize="416,170" sap2010:WorkflowViewState.IdRef="Assign_18">
+                                  <Assign.To>
+                                    <OutArgument x:TypeArguments="x:Int32">[reviewCount]</OutArgument>
+                                  </Assign.To>
+                                  <Assign.Value>
+                                    <InArgument x:TypeArguments="x:Int32">[reviewCount + 1]</InArgument>
+                                  </Assign.Value>
+                                </Assign>
+                              </Sequence>
+                            </If.Then>
+                            <If.Else>
+                              <Sequence DisplayName="Else" sap:VirtualizedContainerService.HintSize="450,234" sap2010:WorkflowViewState.IdRef="Sequence_23">
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                                <Assign sap:VirtualizedContainerService.HintSize="416,170" sap2010:WorkflowViewState.IdRef="Assign_19">
+                                  <Assign.To>
+                                    <OutArgument x:TypeArguments="x:Int32">[rejectedCount]</OutArgument>
+                                  </Assign.To>
+                                  <Assign.Value>
+                                    <InArgument x:TypeArguments="x:Int32" xml:space="preserve">[rejectedCount  + 1]</InArgument>
+                                  </Assign.Value>
+                                </Assign>
+                              </Sequence>
+                            </If.Else>
+                          </If>
+                        </Sequence>
+                      </If.Else>
+                    </If>
                     <Assign sap:VirtualizedContainerService.HintSize="623,175" sap2010:WorkflowViewState.IdRef="Assign_10">
                       <Assign.To>
                         <OutArgument x:TypeArguments="x:String">[processedAt]</OutArgument>
@@ -514,6 +624,53 @@
                 </ActivityAction>
               </ueab:ExcelForEachRowX.Body>
             </ueab:ExcelForEachRowX>
+            <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="691,175" sap2010:WorkflowViewState.IdRef="LogMessage_3" Message="[&quot;Summary → Total: &quot; + totalCount.ToString + &#xD;&#xA;&quot; | Approved: &quot; + approvedCount.ToString + &#xD;&#xA;&quot; | Review: &quot; + reviewCount.ToString + &#xD;&#xA;&quot; | Rejected: &quot; + rejectedCount.ToString + &#xD;&#xA;&quot; | Missing files: &quot; + missingFileCount.ToString]" />
+            <Assign sap:VirtualizedContainerService.HintSize="691,175" sap2010:WorkflowViewState.IdRef="Assign_20">
+              <Assign.To>
+                <OutArgument x:TypeArguments="x:String">[reportFilePath]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="x:String">[System.IO.Path.Combine(System.IO.Directory.GetParent(Environment.CurrentDirectory).FullName, "reports", "invoice-report-" + Now.ToString("yyyyMMdd_HHmmss") + ".txt")]</InArgument>
+              </Assign.Value>
+            </Assign>
+            <Assign sap:VirtualizedContainerService.HintSize="691,175" sap2010:WorkflowViewState.IdRef="Assign_21">
+              <Assign.To>
+                <OutArgument x:TypeArguments="x:String">[reportText]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="x:String" xml:space="preserve">["Invoice Processing Report" + Environment.NewLine +
+"Generated at: " + Now.ToString("yyyy-MM-dd HH:mm:ss") + Environment.NewLine +
+Environment.NewLine +
+"Total invoices: " + totalCount.ToString + Environment.NewLine +
+"Approved: " + approvedCount.ToString + Environment.NewLine +
+"Review: " + reviewCount.ToString + Environment.NewLine +
+"Rejected: " + rejectedCount.ToString + Environment.NewLine +
+"Missing files: " + missingFileCount.ToString]</InArgument>
+              </Assign.Value>
+            </Assign>
+            <ui:WriteTextFile File="{x:Null}" Output="{x:Null}" DisplayName="Write Text File" FileName="[reportFilePath]" sap:VirtualizedContainerService.HintSize="691,176" sap2010:WorkflowViewState.IdRef="WriteTextFile_1" Text="[reportText]" />
+            <ui:MessageBox Caption="{x:Null}" AutoCloseAfter="00:00:00" Buttons="YesNo" ChosenButton="[openReportAnswer]" DisplayName="Message Box" sap:VirtualizedContainerService.HintSize="691,123" sap2010:WorkflowViewState.IdRef="MessageBox_1" Text="[&quot;Report created: &quot; + reportFilePath + Environment.NewLine + Environment.NewLine + &quot;Do you want to open it now?&quot;]" />
+            <If Condition="[openReportAnswer = &quot;Yes&quot;]" sap:VirtualizedContainerService.HintSize="691,403" sap2010:WorkflowViewState.IdRef="If_11">
+              <If.Then>
+                <Sequence DisplayName="Then" sap:VirtualizedContainerService.HintSize="450,179" sap2010:WorkflowViewState.IdRef="Sequence_24">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <ui:StartProcess Arguments="{x:Null}" WorkingDirectory="{x:Null}" DisplayName="Open Report File" FileName="[reportFilePath]" sap:VirtualizedContainerService.HintSize="416,115" sap2010:WorkflowViewState.IdRef="StartProcess_1" />
+                </Sequence>
+              </If.Then>
+              <If.Else>
+                <Sequence DisplayName="Else" sap:VirtualizedContainerService.HintSize="450,94" sap2010:WorkflowViewState.IdRef="Sequence_25">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                </Sequence>
+              </If.Else>
+            </If>
           </Sequence>
         </ActivityAction>
       </ueab:ExcelApplicationCard.Body>
