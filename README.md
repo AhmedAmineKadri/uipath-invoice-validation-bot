@@ -265,6 +265,7 @@ An interactive browser-based demo is available in:
 
 ```text
 docs/uipath_invoice_validation_demo_v2.html
+```
 
 ## Notes
 
