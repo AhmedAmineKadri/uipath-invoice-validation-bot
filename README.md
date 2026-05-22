@@ -259,6 +259,13 @@ invoices
 
 ---
 
+## Demo
+
+An interactive browser-based demo is available in:
+
+```text
+docs/uipath_invoice_validation_demo_v2.html
+
 ## Notes
 
 The file `missing-invoice.pdf` is intentionally not included. It is used to test the bot's missing-file validation rule.
