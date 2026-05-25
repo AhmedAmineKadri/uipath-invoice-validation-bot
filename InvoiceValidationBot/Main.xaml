@@ -108,7 +108,7 @@
       <AssemblyReference>UiPath.Platform</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <Sequence DisplayName="Main Sequence" sap:VirtualizedContainerService.HintSize="759,9359" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence DisplayName="Main Sequence" sap:VirtualizedContainerService.HintSize="1301,9771" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="x:Int32" Name="totalCount" />
       <Variable x:TypeArguments="x:Int32" Name="approvedCount" />
@@ -118,13 +118,47 @@
       <Variable x:TypeArguments="x:String" Name="reportFilePath" />
       <Variable x:TypeArguments="x:String" Name="reportText" />
       <Variable x:TypeArguments="x:String" Name="openReportAnswer" />
+      <Variable x:TypeArguments="x:String" Name="runId" />
+      <Variable x:TypeArguments="x:String" Name="projectRoot" />
+      <Variable x:TypeArguments="x:String" Name="archiveRunFolder" />
     </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <ueab:ExcelApplicationCard Password="{x:Null}" ReadFormatting="{x:Null}" SensitivityLabel="{x:Null}" DisplayName="Use Excel File" sap:VirtualizedContainerService.HintSize="759,9725" sap2010:WorkflowViewState.IdRef="ExcelApplicationCard_1" ResizeWindow="None" SensitivityOperation="None" WorkbookPath="C:\Users\ACER\Desktop\UiPath-Invoice-Validation-Bot\data\invoices.xlsx">
+    <Assign DisplayName="Set Run ID" sap:VirtualizedContainerService.HintSize="759,175" sap2010:WorkflowViewState.IdRef="Assign_22">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[runId]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[Now.ToString("yyyyMMdd_HHmmss")]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign DisplayName="Set Project Root" sap:VirtualizedContainerService.HintSize="759,175" sap2010:WorkflowViewState.IdRef="Assign_23">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[projectRoot]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[System.IO.Directory.GetParent(Environment.CurrentDirectory).FullName]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <Assign DisplayName="Set Archive Run Folder" sap:VirtualizedContainerService.HintSize="759,175" sap2010:WorkflowViewState.IdRef="Assign_24">
+      <Assign.To>
+        <OutArgument x:TypeArguments="x:String">[archiveRunFolder]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="x:String">[System.IO.Path.Combine(projectRoot, "archive", runId)]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <ui:InvokeCode ContinueOnError="{x:Null}" Code="System.IO.Directory.CreateDirectory(archiveRunFolder)&#xA;&#xA;Dim outputFolders As String() = {&quot;approved&quot;, &quot;review&quot;, &quot;rejected&quot;, &quot;reports&quot;}&#xA;&#xA;For Each folderName As String In outputFolders&#xA;    Dim sourceFolder As String = System.IO.Path.Combine(projectRoot, folderName)&#xA;&#xA;    If System.IO.Directory.Exists(sourceFolder) Then&#xA;        Dim files As String() = System.IO.Directory.GetFiles(sourceFolder).Where(Function(filePath) System.IO.Path.GetFileName(filePath) &lt;&gt; &quot;.gitkeep&quot;).ToArray()&#xA;&#xA;        If files.Length &gt; 0 Then&#xA;            Dim destinationFolder As String = System.IO.Path.Combine(archiveRunFolder, folderName)&#xA;            System.IO.Directory.CreateDirectory(destinationFolder)&#xA;&#xA;            For Each filePath As String In files&#xA;                Dim destinationPath As String = System.IO.Path.Combine(destinationFolder, System.IO.Path.GetFileName(filePath))&#xA;&#xA;                If System.IO.File.Exists(destinationPath) Then&#xA;                    destinationPath = System.IO.Path.Combine(destinationFolder, System.IO.Path.GetFileNameWithoutExtension(filePath) + &quot;-&quot; + System.Guid.NewGuid().ToString(&quot;N&quot;).Substring(0, 8) + System.IO.Path.GetExtension(filePath))&#xA;                End If&#xA;&#xA;                System.IO.File.Move(filePath, destinationPath)&#xA;            Next&#xA;        End If&#xA;    End If&#xA;Next&#xA;&#xA;System.IO.Directory.CreateDirectory(System.IO.Path.Combine(projectRoot, &quot;reports&quot;))" DisplayName="Archive Previous Outputs" sap:VirtualizedContainerService.HintSize="759,197" sap2010:WorkflowViewState.IdRef="InvokeCode_1">
+      <ui:InvokeCode.Arguments>
+        <InArgument x:TypeArguments="x:String" x:Key="projectRoot">[projectRoot]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="archiveRunFolder">[archiveRunFolder]</InArgument>
+      </ui:InvokeCode.Arguments>
+    </ui:InvokeCode>
+    <ui:LogMessage DisplayName="Log Run ID" sap:VirtualizedContainerService.HintSize="759,166" sap2010:WorkflowViewState.IdRef="LogMessage_4" Message="[&quot;Run ID: &quot; + runId + &quot; | Archived previous outputs to: &quot; + archiveRunFolder]" />
+    <ueab:ExcelApplicationCard Password="{x:Null}" ReadFormatting="{x:Null}" SensitivityLabel="{x:Null}" DisplayName="Use Excel File" sap:VirtualizedContainerService.HintSize="759,9748" sap2010:WorkflowViewState.IdRef="ExcelApplicationCard_1" ResizeWindow="None" SensitivityOperation="None" WorkbookPath="C:\Users\ACER\Desktop\UiPath-Invoice-Validation-Bot\data\invoices.xlsx">
       <ueab:ExcelApplicationCard.Body>
         <ActivityAction x:TypeArguments="ue:IWorkbookQuickHandle">
           <ActivityAction.Argument>
@@ -624,13 +658,13 @@
                 </ActivityAction>
               </ueab:ExcelForEachRowX.Body>
             </ueab:ExcelForEachRowX>
-            <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="691,175" sap2010:WorkflowViewState.IdRef="LogMessage_3" Message="[&quot;Summary → Total: &quot; + totalCount.ToString + &#xD;&#xA;&quot; | Approved: &quot; + approvedCount.ToString + &#xD;&#xA;&quot; | Review: &quot; + reviewCount.ToString + &#xD;&#xA;&quot; | Rejected: &quot; + rejectedCount.ToString + &#xD;&#xA;&quot; | Missing files: &quot; + missingFileCount.ToString]" />
+            <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="691,175" sap2010:WorkflowViewState.IdRef="LogMessage_3" Message="[&quot;Summary → Total: &quot; + totalCount.ToString + &#xA;&quot; | Approved: &quot; + approvedCount.ToString + &#xA;&quot; | Review: &quot; + reviewCount.ToString + &#xA;&quot; | Rejected: &quot; + rejectedCount.ToString + &#xA;&quot; | Missing files: &quot; + missingFileCount.ToString]" />
             <Assign sap:VirtualizedContainerService.HintSize="691,175" sap2010:WorkflowViewState.IdRef="Assign_20">
               <Assign.To>
                 <OutArgument x:TypeArguments="x:String">[reportFilePath]</OutArgument>
               </Assign.To>
               <Assign.Value>
-                <InArgument x:TypeArguments="x:String">[System.IO.Path.Combine(System.IO.Directory.GetParent(Environment.CurrentDirectory).FullName, "reports", "invoice-report-" + Now.ToString("yyyyMMdd_HHmmss") + ".txt")]</InArgument>
+                <InArgument x:TypeArguments="x:String">[System.IO.Path.Combine(projectRoot, "reports", "invoice-report-" + runId + ".txt")]</InArgument>
               </Assign.Value>
             </Assign>
             <Assign sap:VirtualizedContainerService.HintSize="691,175" sap2010:WorkflowViewState.IdRef="Assign_21">
@@ -639,7 +673,9 @@
               </Assign.To>
               <Assign.Value>
                 <InArgument x:TypeArguments="x:String" xml:space="preserve">["Invoice Processing Report" + Environment.NewLine +
+"Run ID: " + runId + Environment.NewLine +
 "Generated at: " + Now.ToString("yyyy-MM-dd HH:mm:ss") + Environment.NewLine +
+"Archive folder: " + archiveRunFolder + Environment.NewLine +
 Environment.NewLine +
 "Total invoices: " + totalCount.ToString + Environment.NewLine +
 "Approved: " + approvedCount.ToString + Environment.NewLine +
@@ -649,7 +685,7 @@ Environment.NewLine +
               </Assign.Value>
             </Assign>
             <ui:WriteTextFile File="{x:Null}" Output="{x:Null}" DisplayName="Write Text File" FileName="[reportFilePath]" sap:VirtualizedContainerService.HintSize="691,176" sap2010:WorkflowViewState.IdRef="WriteTextFile_1" Text="[reportText]" />
-            <ui:MessageBox Caption="{x:Null}" AutoCloseAfter="00:00:00" Buttons="YesNo" ChosenButton="[openReportAnswer]" DisplayName="Message Box" sap:VirtualizedContainerService.HintSize="691,123" sap2010:WorkflowViewState.IdRef="MessageBox_1" Text="[&quot;Report created: &quot; + reportFilePath + Environment.NewLine + Environment.NewLine + &quot;Do you want to open it now?&quot;]" />
+            <ui:MessageBox Caption="{x:Null}" AutoCloseAfter="00:00:00" Buttons="YesNo" ChosenButton="[openReportAnswer]" DisplayName="Message Box" sap:VirtualizedContainerService.HintSize="691,123" sap2010:WorkflowViewState.IdRef="MessageBox_1" Text="[&quot;Report created: &#xD;&#xA;&#xD;&#xA;&#x9;Do you want to open it now?&quot;]" />
             <If Condition="[openReportAnswer = &quot;Yes&quot;]" sap:VirtualizedContainerService.HintSize="691,403" sap2010:WorkflowViewState.IdRef="If_11">
               <If.Then>
                 <Sequence DisplayName="Then" sap:VirtualizedContainerService.HintSize="450,179" sap2010:WorkflowViewState.IdRef="Sequence_24">

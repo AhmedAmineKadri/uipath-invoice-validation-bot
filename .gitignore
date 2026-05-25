@@ -9,6 +9,7 @@ reports/*.log
 approved/*.pdf
 review/*.pdf
 rejected/*.pdf
+archive/
 
 # Keep folder placeholders
 !approved/.gitkeep
